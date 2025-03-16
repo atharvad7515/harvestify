@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Commodity Price Data</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: #2c3e50;
+        color: white;
+        border-radius: 5px;
+      }
+
+      .search-form {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .search-form input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .search-form button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+      }
+
+      .search-form button:hover {
+        background-color: #2980b9;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #34495e;
+        color: white;
+        text-transform: uppercase;
+        font-size: 0.9em;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 20px;
+        color: #666;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 30px;
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      @media screen and (max-width: 768px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        .search-form {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>India Commodity Prices</h1>
+      <p>Agricultural commodity prices from government API</p>
+    </header>
+
+    <main>
+      <form method="GET" action="/" class="search-form">
+        <input
+          type="text"
+          name="state"
+          placeholder="State"
+          value="{{ state }}"
+        />
+        <input
+          type="text"
+          name="district"
+          placeholder="District"
+          value="{{ district }}"
+        />
+        <input
+          type="text"
+          name="commodity"
+          placeholder="Commodity"
+          value="{{ commodity }}"
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      {% if price_data %}
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>District</th>
+            <th>Commodity</th>
+            <th>Market</th>
+            <th>Min Price (₹)</th>
+            <th>Max Price (₹)</th>
+            <th>Arrival Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in price_data %}
+          <tr>
+            <td>{{ record.state }}</td>
+            <td>{{ record.district }}</td>
+            <td>{{ record.commodity }}</td>
+            <td>{{ record.market }}</td>
+            <td>{{ record.min_price }}</td>
+            <td>{{ record.max_price }}</td>
+            <td>{{ record.arrival_date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="no-data">
+        No matching records found. Try different search parameters.
+      </p>
+      {% endif %}
+    </main>
+
+    <footer>
+      <p>Data source: data.gov.in | Updated regularly</p>
+    </footer>
+  </body>
+</html>
