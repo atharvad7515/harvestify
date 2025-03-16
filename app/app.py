@@ -73,6 +73,9 @@ disease_model = ResNet9(3, len(disease_classes))
 disease_model.load_state_dict(torch.load(disease_model_path, map_location=torch.device('cpu')))
 disease_model.eval()
 
+# url
+
+
 # Loading crop recommendation model
 # Updated to load the model saved with the new feature sequence: N, P, K, Temperature, Humidity, pH, Rainfall
 with open("model.pkl", "rb") as file:
@@ -125,6 +128,67 @@ def predict_image(img, model=disease_model):
 # ------------------------------------ FLASK APP -------------------------------------------------
 
 app = Flask(__name__)
+
+def get_price_data(state=None, district=None, commodity=None):
+    url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070"
+    params = {
+        "api-key": "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b",
+        "format": "json",
+        "offset": 0,
+        "limit": 10
+    }
+    
+    # Add filters
+    if state:
+        params["filters[state]"] = state
+    if district:
+        params["filters[district]"] = district
+    if commodity:
+        params["filters[commodity]"] = commodity
+    
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+    except (requests.exceptions.RequestException, ValueError) as e:
+        print(f"Error fetching data: {e}")
+        return []
+    
+    records = []
+    for item in data.get('records', []):
+        record = {
+            'state': item.get('state', 'N/A'),
+            'district': item.get('district', 'N/A'),
+            'commodity': item.get('commodity', 'N/A'),
+            'min_price': item.get('min_price', 'N/A'),
+            'max_price': item.get('max_price', 'N/A'),
+            'market': item.get('market', 'N/A'),
+            'arrival_date': item.get('arrival_date', 'N/A')
+        }
+        records.append(record)
+    return records
+
+@app.route('/')
+def index():
+    state = request.args.get('state', '')
+    district = request.args.get('district', '')
+    commodity = request.args.get('commodity', '')
+    
+    price_data = get_price_data(state, district, commodity)
+    return render_template('api.html', 
+                         price_data=price_data,
+                         state=state,
+                         district=district,
+                         commodity=commodity)
+
+
+
+
+
+
+
+
+
 
 # Render home page
 @app.route('/')
