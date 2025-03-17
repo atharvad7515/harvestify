@@ -23,6 +23,22 @@ import torch
 from torchvision import transforms
 from PIL import Image
 from utils.model import ResNet9
+
+
+
+
+
+
+
+
+
+
+model = pickle.load(open('modelcopy.pkl','rb'))
+sc = pickle.load(open('standscaler.pkl','rb'))
+mx = pickle.load(open('minmaxscaler.pkl','rb'))
+
+
+
 # ==============================================================================================
 
 # -------------------------LOADING THE TRAINED MODELS -----------------------------------------------
@@ -321,25 +337,63 @@ def fertilizer_recommendation():
 # RENDER PREDICTION PAGES
 
 # Render crop recommendation result page
-@app.route('/crop-predict', methods=['POST'])
-def crop_prediction():
-    title = 'Harvestify - Crop Recommendation'
-    if request.method == 'POST':
-        # Get input values from the form (ensure your form has these fields)
-        N = int(request.form['nitrogen'])
-        P = int(request.form['phosphorous'])
-        K = int(request.form['pottasium'])
-        temperature = float(request.form['temperature'])
-        humidity = float(request.form['humidity'])
-        ph = float(request.form['ph'])
-        rainfall = float(request.form['rainfall'])
+# @app.route('/crop-predict', methods=['POST'])
+# def crop_prediction():
+#     title = 'Harvestify - Crop Recommendation'
+#     if request.method == 'POST':
+#         # Get input values from the form (ensure your form has these fields)
+#         N = int(request.form['nitrogen'])
+#         P = int(request.form['phosphorous'])
+#         K = int(request.form['pottasium'])
+#         temperature = float(request.form['temperature'])
+#         humidity = float(request.form['humidity'])
+#         ph = float(request.form['ph'])
+#         rainfall = float(request.form['rainfall'])
         
-        # Prepare the data array in the order: N, P, K, Temperature, Humidity, pH, Rainfall
-        data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
-        my_prediction = crop_recommendation_model.predict(data)
-        final_prediction = my_prediction[0]
+#         # Prepare the data array in the order: N, P, K, Temperature, Humidity, pH, Rainfall
+#         data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
+#         my_prediction = crop_recommendation_model.predict(data)
+#         final_prediction = my_prediction[0]
 
-        return render_template('crop-result.html', prediction=final_prediction, title=title)
+#         return render_template('crop-result.html', prediction=final_prediction, title=title)
+
+
+
+
+# crop- Detection
+@app.route('/cropDetection')
+def cropDetection():
+    return render_template("cropDetection.html")
+
+@app.route("/cropDetection",methods=['POST'])
+def Predict():
+    N = request.form['Nitrogen']
+    P = request.form['Phosporus']
+    K = request.form['Potassium']
+    temp = request.form['Temperature']
+    humidity = request.form['Humidity']
+    ph = request.form['pH']
+    rainfall = request.form['Rainfall']
+
+    feature_list = [N, P, K, temp, humidity, ph, rainfall]
+    single_pred = np.array(feature_list).reshape(1, -1)
+
+    mx_features = mx.transform(single_pred)
+    sc_mx_features = sc.transform(mx_features)
+    prediction = model.predict(sc_mx_features)
+
+    crop_dict = {1: "Rice", 2: "Maize", 3: "Jute", 4: "Cotton", 5: "Coconut", 6: "Papaya", 7: "Orange",
+                 8: "Apple", 9: "Muskmelon", 10: "Watermelon", 11: "Grapes", 12: "Mango", 13: "Banana",
+                 14: "Pomegranate", 15: "Lentil", 16: "Blackgram", 17: "Mungbean", 18: "Mothbeans",
+                 19: "Pigeonpeas", 20: "Kidneybeans", 21: "Chickpea", 22: "Coffee"}
+
+    if prediction[0] in crop_dict:
+        crop = crop_dict[prediction[0]]
+        result = "{} is the best crop to be cultivated right there".format(crop)
+    else:
+        result = "Sorry, we could not determine the best crop to be cultivated with the provided data."
+    return render_template('cropDetection.html',result = result)
+
 
 # Render fertilizer recommendation result page
 @app.route('/fertilizer-predict', methods=['POST'])
