@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kisan Call Centre Query</title>
+    <style>
+      /* Apply a soft gradient background */
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(to right, #74ebd5, #acb6e5);
+        color: #333;
+        text-align: center;
+        padding: 20px;
+      }
+
+      /* Style the heading */
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #fff;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Center the form and style it */
+      form {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 25px;
+        border-radius: 15px;
+        max-width: 500px;
+        margin: 0 auto;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Style labels */
+      label {
+        font-size: 1.1rem;
+        font-weight: bold;
+        display: block;
+        margin: 10px 0 5px;
+      }
+
+      /* Style select dropdowns */
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        outline: none;
+        background-color: #f8f9fa;
+        transition: 0.3s ease;
+      }
+
+      /* Add hover effect to select */
+      select:hover,
+      select:focus {
+        border-color: #0056b3;
+        background-color: #e9ecef;
+      }
+
+      /* Style the button */
+      button {
+        background: #007bff;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: 0.3s ease-in-out;
+        width: 100%;
+      }
+
+      /* Hover effect for button */
+      button:hover {
+        background: #0056b3;
+      }
+
+      /* Style the response section */
+      h2 {
+        font-size: 1.8rem;
+        color: #fff;
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 1.2rem;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        max-width: 500px;
+        margin: 0 auto;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Make it responsive */
+      @media (max-width: 600px) {
+        form {
+          width: 90%;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        button {
+          font-size: 1rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Kisan Call Centre - Query Response</h1>
+
+    <form method="POST">
+      <label for="state">Select State:</label>
+      <select name="state" id="state" required>
+        <option value="">--Select State--</option>
+        {% for state in states %}
+        <option value="{{ state }}">{{ state }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="district">Select District:</label>
+      <select name="district" id="district" required>
+        <option value="">--Select District--</option>
+        {% for district in districts %}
+        <option value="{{ district }}">{{ district }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="query_type">Select Query Type:</label>
+      <select name="query_type" id="query_type" required>
+        <option value="">--Select Query Type--</option>
+        {% for query in query_types %}
+        <option value="{{ query }}">{{ query }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit">Get Answer</button>
+    </form>
+
+    {% if kcc_answer %}
+    <h2>Response:</h2>
+    <p>{{ kcc_answer }}</p>
+    {% endif %}
+  </body>
+</html>

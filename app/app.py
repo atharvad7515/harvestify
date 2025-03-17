@@ -129,6 +129,46 @@ def predict_image(img, model=disease_model):
 
 app = Flask(__name__)
 
+# def get_price_data(state=None, district=None, commodity=None):
+#     url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070"
+#     params = {
+#         "api-key": "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b",
+#         "format": "json",
+#         "offset": 0,
+#         "limit": 10
+#     }
+    
+#     # Add filters
+#     if state:
+#         params["filters[state]"] = state
+#     if district:
+#         params["filters[district]"] = district
+#     if commodity:
+#         params["filters[commodity]"] = commodity
+    
+#     try:
+#         response = requests.get(url, params=params)
+#         response.raise_for_status()
+#         data = response.json()
+#     except (requests.exceptions.RequestException, ValueError) as e:
+#         print(f"Error fetching data: {e}")
+#         return []
+
+#     record = {
+#     'state': item.get('state', 'N/A'),
+#     'district': item.get('district', 'N/A'),
+#     'commodity': item.get('commodity', 'N/A'),
+#     'min_price': item.get('min_price', 'N/A'),
+#     'max_price': item.get('max_price', 'N/A'),
+#     'market': item.get('market', 'N/A'),
+#     'arrival_date': item.get('arrival_date', 'N/A')
+#      }
+    
+import requests
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
 def get_price_data(state=None, district=None, commodity=None):
     url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070"
     params = {
@@ -145,30 +185,36 @@ def get_price_data(state=None, district=None, commodity=None):
         params["filters[district]"] = district
     if commodity:
         params["filters[commodity]"] = commodity
-    
+
     try:
         response = requests.get(url, params=params)
         response.raise_for_status()
         data = response.json()
+
+        # ✅ Initialize records list
+        records = []
+
+        # ✅ Ensure "records" exists in response
+        if "records" in data and isinstance(data["records"], list):
+            for item in data["records"]:  # ✅ Iterate over fetched records
+                record = {
+                    'state': item.get('state', 'N/A'),
+                    'district': item.get('district', 'N/A'),
+                    'commodity': item.get('commodity', 'N/A'),
+                    'min_price': item.get('min_price', 'N/A'),
+                    'max_price': item.get('max_price', 'N/A'),
+                    'market': item.get('market', 'N/A'),
+                    'arrival_date': item.get('arrival_date', 'N/A')
+                }
+                records.append(record)
+
+        return records  # ✅ Now, 'records' is always defined
+
     except (requests.exceptions.RequestException, ValueError) as e:
         print(f"Error fetching data: {e}")
-        return []
-    
-    records = []
-    for item in data.get('records', []):
-        record = {
-            'state': item.get('state', 'N/A'),
-            'district': item.get('district', 'N/A'),
-            'commodity': item.get('commodity', 'N/A'),
-            'min_price': item.get('min_price', 'N/A'),
-            'max_price': item.get('max_price', 'N/A'),
-            'market': item.get('market', 'N/A'),
-            'arrival_date': item.get('arrival_date', 'N/A')
-        }
-        records.append(record)
-    return records
+        return []  # ✅ Always return an empty list on failure
 
-@app.route('/')
+@app.route('/api')
 def index():
     state = request.args.get('state', '')
     district = request.args.get('district', '')
@@ -176,11 +222,72 @@ def index():
     
     price_data = get_price_data(state, district, commodity)
     return render_template('api.html', 
-                         price_data=price_data,
-                         state=state,
-                         district=district,
-                         commodity=commodity)
+                           price_data=price_data,
+                           state=state,
+                           district=district,
+                           commodity=commodity)
 
+
+
+# @app.route('/api')
+# def index():
+#     state = request.args.get('state', '')
+#     district = request.args.get('district', '')
+#     commodity = request.args.get('commodity', '')
+    
+#     price_data = get_price_data(state, district, commodity)
+#     return render_template('api.html', 
+#                          price_data=price_data,
+#                          state=state,
+#                          district=district,
+#                          commodity=commodity)
+
+# API Endpoint
+API_URL = "https://api.data.gov.in/resource/cef25fe2-9231-4128-8aec-2c948fedd43f"
+API_KEY = "579b464db66ec23bdd00000114421da1118d49df5bdc6532b5fe6eb5"
+
+def fetch_data():
+    """Fetches data from the API."""
+    params = {
+        "api-key": API_KEY,
+        "format": "json"
+    }
+    response = requests.get(API_URL, params=params)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+@app.route("/govSchemes", methods=["GET", "POST"])
+def govSchemes():
+    data = fetch_data()
+    
+    if not data:
+        return "Failed to fetch data from API", 500
+
+    # Extract unique values for dropdowns
+    records = data.get("records", [])
+    states = sorted(set(record.get("StateName", "") for record in records))
+    districts = sorted(set(record.get("DistrictName", "") for record in records))
+    query_types = sorted(set(record.get("QueryType", "") for record in records))
+
+    kcc_answer = None
+
+    if request.method == "POST":
+        selected_state = request.form.get("state")
+        selected_district = request.form.get("district")
+        selected_query_type = request.form.get("query_type")
+
+        # Filter records
+        for record in records:
+            if (record.get("StateName") == selected_state and
+                record.get("DistrictName") == selected_district and
+                record.get("QueryType") == selected_query_type):
+                kcc_answer = record.get("KccAns", "No Answer Found")
+                break
+
+    return render_template("govSchemes.html", states=states, districts=districts, query_types=query_types, kcc_answer=kcc_answer)
 
 
 
@@ -295,7 +402,7 @@ def format_output(text):
 
 # Define chatbot initialization
 def initialise_llama3():
-    try:
+    try:    
         # Create chatbot prompt
         create_prompt = ChatPromptTemplate.from_messages(
             [
