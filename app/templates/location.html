@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Waypoint Selector</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBsHiVQP-LoPUsQ17vn_HQ3dSUHI1-xPg&callback=initMap" async defer></script>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f8ff;
+    overflow: hidden;
+}
+
+#map {
+    height: 400px; /* Ensure that the height is set correctly */
+    width: 100%;
+    margin-bottom: 20px; /* Add some space below the map */
+}
+
+#controls {
+    margin-top: 20px;
+    text-align: left;
+}
+h2 {
+    margin: 20px 0;
+    padding: 10px;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    color: #8c00ff;
+    display: inline-block;
+}
+
+h3 {
+    margin: 20px 0;
+    padding: 10px;
+    border: 2px solid #ffbf00;
+    border-radius: 8px;
+    color: #ff0000;
+    display: inline-block;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button1 {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    line-height: normal ;
+    display: inline-block;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button2 {
+    background-color: #cac3c3;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #7aec61;
+}
+
+button2:hover {
+    background-color: #ff0000;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+/* Modal styles */
+.modal {
+    position: fixed; /* Stay on the screen */
+    top: 80px; /* Center vertically */
+    right: 10px; /* Center horizontally */
+    /*transform: translate(-50%, -50%); /* Adjust for centering */
+    width: 400px; /* Fixed width */
+    max-height: 400px; /* Maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    background-color: white; /* Background color */
+    border: 2px solid #ccc; /* Border styling */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding inside the modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    z-index: 1000; /* Ensure it is on top of other elements */
+    display: none; /* Hidden by default */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    border-radius: 8px;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 10px;
+    border: 0px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+    <h3>Select Waypoints on the Map</h3>
+    <div id="map"></div>
+    <div id="controls">
+        <button id="drawPathButton">Draw Path</button>
+        <button id="sendCoordinatesButton">Send Coordinates</button>
+        <button1 id="viewWaypointsButton">View Waypoints</button1>
+    </div>
+
+    <div id="waypointsModal" class="modal">
+        <h2 style="color: purple;">Waypoints</h2>
+        <ul id="waypoint-list" class="waypoint-list"></ul> <!-- This will hold the waypoints -->
+        <button2 id="closeModal">Close</button2>
+        </div>
+    </div>
+
+    <script>
+        let map;
+let markers = [];// Array to store the markers (waypoints)
+let waypoints = [];// Array to store the coordinates of the waypoints
+let polyline = null;// To store the polyline (path between waypoints)
+
+// Map initialization function
+function initMap() {
+    const defaultLocation = { lat: 18.5200, lng: 73.8550 };
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: defaultLocation,
+        zoom: 10
+    });
+
+    map.addListener('click', event => {
+        addWaypoint(event.latLng);
+    });
+
+    document.getElementById('drawPathButton').onclick = drawPath;
+    document.getElementById('sendCoordinatesButton').onclick = sendCoordinatesToServer;
+    document.getElementById('viewWaypointsButton').onclick = openWaypointsModal;
+    document.getElementById('closeModal').onclick = closeWaypointsModal;
+}
+
+// Function to add a waypoint
+function addWaypoint(location) {
+    const marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        label: (markers.length + 1).toString()
+    });
+    markers.push(marker);
+    waypoints.push({ lat: location.lat(), lng: location.lng() });
+}
+
+// Function to draw a path between all waypoints
+function drawPath() {
+    if (waypoints.length < 2) {
+        alert("At least two waypoints are needed to draw a path.");
+        return;
+    }
+
+    if (polyline) {
+        polyline.setMap(null);// Remove previous path if it exists
+    }
+
+    polyline = new google.maps.Polyline({
+        path: waypoints,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+    });
+
+    polyline.setMap(map);// Draw the path on the map
+}
+
+// Function to send the coordinates to the backend server
+function sendCoordinatesToServer() {
+    if (waypoints.length > 0) {
+        fetch('http://127.0.0.1:5000/set-waypoint', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ waypoints: waypoints }),
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+    } else {
+        alert("Please add at least one waypoint.");
+    }
+}
+
+// Function to open the modal
+function openWaypointsModal() {
+    updateWaypointList();
+    document.getElementById('waypointsModal').style.display = "block";
+}
+
+// Function to close the modal
+function closeWaypointsModal() {
+    document.getElementById('waypointsModal').style.display = "none";
+}
+
+// Function to update the list of waypoints
+function updateWaypointList() {
+    const waypointList = document.getElementById('waypoint-list');
+    waypointList.innerHTML = '';// Clear the list
+
+    waypoints.forEach((waypoint, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Waypoint ${index + 1}: (${waypoint.lat.toFixed(4)}, ${waypoint.lng.toFixed(4)})`;
+
+        const deleteButton = document.createElement('button1');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => {
+            deleteWaypoint(index);
+        };
+
+        listItem.appendChild(deleteButton);
+        waypointList.appendChild(listItem);
+    });
+}
+
+// Function to delete a specific waypoint
+function deleteWaypoint(index) {
+    markers[index].setMap(null); // Remove marker from the map
+    markers.splice(index, 1); // Remove marker from array
+    waypoints.splice(index, 1); // Remove waypoint from array
+
+    // Renumber the remaining markers
+    markers.forEach((marker, i) => {
+        marker.setLabel((i + 1).toString());
+    });
+
+    updateWaypointList();
+    
+    // Check if waypoints are empty and remove the path
+    if (waypoints.length === 0) {
+        if (polyline) {
+            polyline.setMap(null); // Remove the polyline from the map
+            polyline = null; // Clear the polyline variable
+        }
+    } else {
+        drawPath(); // Redraw the path if there are remaining waypoints
+    }
+}
+
+
+// Close modal if the user clicks anywhere outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('waypointsModal');
+    if (event.target === modal) {
+        closeWaypointsModal();
+    }
+};
+
+    </script>
+</body>
+</html>

@@ -1,9 +1,4 @@
-/*!
- * Bootstrap v4.0.0 (https://getbootstrap.com)
- * Copyright 2011-2018 The Bootstrap Authors
- * Copyright 2011-2018 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -479,7 +474,7 @@ mark,
 
 .img-fluid {
   max-width: 100%;
-  height: auto;
+  height: 27vh;
 }
 
 .img-thumbnail {
@@ -581,7 +576,7 @@ pre code {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1140px;
+    max-width: 1425px;
   }
 }
 
@@ -601,6 +596,8 @@ pre code {
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+  width: 100%;
+  margin: auto;
 }
 
 .no-gutters {
@@ -1315,6 +1312,9 @@ pre code {
     -ms-flex: 0 0 50%;
     flex: 0 0 50%;
     max-width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .col-lg-7 {
     -webkit-box-flex: 0;
@@ -4174,6 +4174,7 @@ tbody.collapse.show {
     -webkit-box-pack: start;
     -ms-flex-pack: start;
     justify-content: flex-start;
+    height: 70px;
   }
   .navbar-expand-lg .navbar-nav {
     -webkit-box-orient: horizontal;
@@ -7675,7 +7676,7 @@ button.bg-dark:focus {
 
 .pt-5,
 .py-5 {
-  padding-top: 3rem !important;
+  padding-top: 2rem !important;
 }
 
 .pr-5,
@@ -7685,7 +7686,7 @@ button.bg-dark:focus {
 
 .pb-5,
 .py-5 {
-  padding-bottom: 3rem !important;
+  padding-bottom: 2rem !important;
 }
 
 .pl-5,
@@ -8972,4 +8973,3 @@ a.text-dark:hover, a.text-dark:focus {
     border: 1px solid #ddd !important;
   }
 }
-/*# sourceMappingURL=bootstrap.css.map */

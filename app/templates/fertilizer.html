@@ -1,133 +1,101 @@
 {% extends 'layout.html' %} {% block body %}
 
 <style>
-  html body {
-    background-color: rgb(206, 206, 228);
-  }
+    body {
+        background-color: rgb(206, 206, 228);
+        font-family: Arial, sans-serif;
+    }
+    .formf {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    label {
+        font-size: 17px;
+        font-weight: bold;
+        display: block;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        color: white;
+        background-color: rgb(40, 160, 62);
+        font-weight: bold;
+        width: 100%;
+        height: 40px;
+        border-radius: 20px;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        margin-top: 22px;
+    }
+    button:hover {
+        background-color: rgb(30, 120, 50);
+    }
 </style>
+
 <!--Form Section-->
 <br /><br />
 <h2 style="text-align: center; margin: 0px; color: black">
-  <b>Get informed advice on fertilizer based on soil</b>
+    <b>Get informed advice on fertilizer based on soil</b>
 </h2>
 <br />
 
-<div
-  style="
-    width: 350px;
-    height: 40rem;
-    margin: 0px auto;
-    color: black;
-    border-radius: 25px;
-    padding: 10px 10px;
-  "
->
-  <form method="POST" action="{{ url_for('fert_recommend') }}">
-    <div class="form-group">
-      <label for="Nitrogen" style="font-size: 17px"><b>Nitrogen</b></label>
-      <input
-        type="number"
-        class="form-control"
-        id="Nitrogen"
-        name="nitrogen"
-        placeholder="Enter the value (example:50)"
-        style="font-weight: bold"
-        required
-      />
-    </div>
-    <div class="form-group">
-      <label for="Phosphorous" style="font-size: 17px"
-        ><b>Phosphorous</b></label
-      >
-      <input
-        type="number"
-        class="form-control"
-        id="Phosphorous"
-        name="phosphorous"
-        placeholder="Enter the value (example:50)"
-        style="font-weight: bold"
-        required
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="Pottasium" style="font-size: 17px"><b>Pottasium</b></label>
-      <input
-        type="number"
-        class="form-control"
-        id="Pottasium"
-        name="pottasium"
-        placeholder="Enter the value (example:50)"
-        style="font-weight: bold"
-        required
-      />
-    </div>
-    <!-- <div class="form-group">
-      <label for="ph" style="font-size: 17px"><b>ph level</b></label>
-      <input
-        type="text"
-        class="form-control"
-        id="ph"
-        name="ph"
-        placeholder="Enter the value"
-        style="font-weight: bold"
-        required
-      />
-    </div> -->
-    <div class="form-group">
-      <label for="crop" style="font-size: 17px"
-        ><b>Crop you want to grow</b></label
-      >
-      <select
-        name="cropname"
-        class="form-control"
-        id="crop"
-        placeholder="Select a crop"
-        style="font-weight: bold"
-        required
-      >
-        <option selected>Select crop</option>
-        <option>rice</option>
-        <option>maize</option>
-        <option>chickpea</option>
-        <option>kidneybeans</option>
-        <option>pigeonpeas</option>
-        <option>mothbeans</option>
-        <option>mungbean</option>
-        <option>blackgram</option>
-        <option>lentil</option>
-        <option>pomegranate</option>
-        <option>banana</option>
-        <option>mango</option>
-        <option>grapes</option>
-        <option>watermelon</option>
-        <option>muskmelon</option>
-        <option>apple</option>
-        <option>orange</option>
-        <option>papaya</option>
-        <option>coconut</option>
-        <option>cotton</option>
-        <option>jute</option>
-        <option>coffee</option>
-      </select>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <button
-        type="submit"
-        class="btn btn-info"
-        style="
-          color: black;
-          font-weight: bold;
-          width: 130px;
-          height: 50px;
-          border-radius: 12px;
-          font-size: 21px;
-        "
-      >
-        Predict
-      </button>
-    </div>
-  </form>
+<div class="formf">
+    <form method="POST" action="{{ url_for('fert_recommend') }}">
+        <div class="form-group">
+            <label for="Nitrogen">Nitrogen</label>
+            <input type="number" class="form-control" id="Nitrogen" name="nitrogen" placeholder="Enter the value (example:50)" required />
+        </div>
+        <div class="form-group">
+            <label for="Phosphorous">Phosphorous</label>
+            <input type="number" class="form-control" id="Phosphorous" name="phosphorous" placeholder="Enter the value (example:50)" required />
+        </div>
+        <div class="form-group">
+            <label for="Pottasium">Pottasium</label>
+            <input type="number" class="form-control" id="Pottasium" name="pottasium" placeholder="Enter the value (example:50)" required />
+        </div>
+        <div class="form-group">
+            <label for="crop">Crop you want to grow</label>
+            <select name="cropname" class="form-control" id="crop" required>
+                <option selected>Select crop</option>
+                <option>rice</option>
+                <option>maize</option>
+                <option>chickpea</option>
+                <option>kidneybeans</option>
+                <option>pigeonpeas</option>
+                <option>mothbeans</option>
+                <option>mungbean</option>
+                <option>blackgram</option>
+                <option>lentil</option>
+                <option>pomegranate</option>
+                <option>banana</option>
+                <option>mango</option>
+                <option>grapes</option>
+                <option>watermelon</option>
+                <option>muskmelon</option>
+                <option>apple</option>
+                <option>orange</option>
+                <option>papaya</option>
+                <option>coconut</option>
+                <option>cotton</option>
+                <option>jute</option>
+                <option>coffee</option>
+            </select>
+        </div>
+        <button type="submit">Predict</button>
+    </form>
 </div>
+
 {% endblock %}

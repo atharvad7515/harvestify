@@ -1,186 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crop Recommendation System</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
-      crossorigin="anonymous"
-    />
-  </head>
-  <style>
-    h1 {
-      color: rgb(0, 0, 0);
-      text-align: center;
-    }
 
-    .warning {
-      color: red;
-      font-weight: bold;
-      text-align: center;
-    }
-    .card {
-      margin: auto;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      color: rgb(241, 239, 240);
-    }
-    .container {
-      background: #fffbfe;
-      font-weight: bold;
-      width: 100%;
-      padding-bottom: 10px;
-      border-radius: 15px;
-    }
-  </style>
+<head>
+    <title>AgroTech</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    
+    <!-- Bootstrap & Custom CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/font-awesome.min.css" rel="stylesheet">
 
-  <body style="background: #bcbbb8">
-    <!--=======================navbar=====================================================-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/"
-          >Crop Recommendation System Using Machine Learning</a
-        >
-      </div>
-    </nav>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lemon&display=swap" rel="stylesheet">
 
-    <!--==========================================================================================-->
-    <div class="container my-3 mt-3">
-      <h1 class="text-success">
-        Crop Recommendation System<span class="text-success">🌱</span>
-      </h1>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-      <!--      adding form-->
-      <form action="/cropDetection" method="POST">
-        <div class="row">
-          <div class="col-md-4">
-            <label for="Nitrogen">Nitrogen</label>
-            <input
-              type="number"
-              id="Nitrogen"
-              name="Nitrogen"
-              placeholder="Enter Nitrogen"
-              class="form-control"
-              required
-              step="0"
-            />
-          </div>
-          <div class="col-md-4">
-            <label for="Phosporus">Phosphorus</label>
-            <input
-              type="number"
-              id="Phosporus"
-              name="Phosporus"
-              placeholder="Enter Phosphorus"
-              class="form-control"
-              required
-              step="00"
-            />
-          </div>
-          <div class="col-md-4">
-            <label for="Potassium">Potassium</label>
-            <input
-              type="number"
-              id="Potassium"
-              name="Potassium"
-              placeholder="Enter Potassium"
-              class="form-control"
-              required
-              step="0"
-            />
-          </div>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url(../images/bgg.gif);
+        }
+
+        .formm {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            text-align: center;
+            border: 2px solid black;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .roww {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .roww .form-group {
+            width: 48%;
+        }
+
+        button {
+            background-color: rgb(40, 160, 62);
+            color: white;
+            font-weight: bold;
+            width: 60%;
+            height: 40px;
+            border-radius: 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            margin-top: 22px;
+        }
+
+        .card {
+            width: 20rem;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            text-align: center;
+            margin: auto;
+            margin-top: 10px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% extends 'layout.html' %} 
+    {% block body %}
+
+    <!-- Crop Recommendation System Form -->
+    <div class="container mt-5" style="margin-bottom: 500px;">
+        <div class="formm" style="width: 40rem;">
+            <h1>Crop Recommendation System 🌱</h1>
+            <form action="/cropDetection" method="POST" style="padding: 10px;">
+                <div class="roww">
+                    <div class="form-group">
+                        <label for="Nitrogen">Nitrogen</label>
+                        <input type="number" id="Nitrogen" name="Nitrogen" placeholder="Enter Nitrogen" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Phosphorus">Phosphorus</label>
+                        <input type="number" id="Phosphorus" name="Phosphorus" placeholder="Enter Phosphorus" required>
+                    </div>
+                </div>
+                <div class="roww">
+                    <div class="form-group">
+                        <label for="Potassium">Potassium</label>
+                        <input type="number" id="Potassium" name="Potassium" placeholder="Enter Potassium" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Temperature">Temperature (°C)</label>
+                        <input type="number" step="0.01" id="Temperature" name="Temperature" placeholder="Enter Temperature" required>
+                    </div>
+                </div>
+                <div class="roww">
+                    <div class="form-group">
+                        <label for="Humidity">Humidity (%)</label>
+                        <input type="number" step="0.01" id="Humidity" name="Humidity" placeholder="Enter Humidity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pH">pH</label>
+                        <input type="number" step="0.01" id="pH" name="pH" placeholder="Enter pH value" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Rainfall">Rainfall (mm)</label>
+                    <input type="number" step="0.01" id="Rainfall" name="Rainfall" placeholder="Enter Rainfall" required>
+                </div>
+                <div class="d-flex" style="margin-left: 10rem;">
+                    <button type="submit">Get Recommendation</button>
+                </div>
+            </form>
+
+            {% if result %}
+            <div class="card" style="margin-top: 100px;">
+                <img src="{{url_for('static', filename='crop.png')}}" style="width: 70px; height: 70px; display: block; margin: 10px auto;" alt="Crop Image" />
+                <div class="card-body">
+                    <h5 class="card-title" style="font-size: 16px; font-weight: bold;">Recommend Crop for Cultivation is:</h5>
+                    <p class="card-text" style="font-size: 14px; color: rgb(40, 160, 62); font-weight: bold;">{{ result }}</p>
+                </div>
+            </div>
+            {% endif %}
         </div>
-
-        <div class="row mt-4">
-          <div class="col-md-4">
-            <label for="Temperature">Temperature</label>
-            <input
-              type="number"
-              step="0.01"
-              id="Temperature"
-              name="Temperature"
-              placeholder="Enter Temperature in °C"
-              class="form-control"
-              required
-              step="0"
-            />
-          </div>
-          <div class="col-md-4">
-            <label for="Humidity">Humidity</label>
-            <input
-              type="number"
-              step="0.01"
-              id="Humidity"
-              name="Humidity"
-              placeholder="Enter Humidity in %"
-              class="form-control"
-              required
-              step="0"
-            />
-          </div>
-          <div class="col-md-4">
-            <label for="pH">pH</label>
-            <input
-              type="number"
-              step="0.01"
-              id="pH"
-              name="pH"
-              placeholder="Enter pH value"
-              class="form-control"
-              required
-              step="0"
-            />
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-md-4">
-            <label for="Rainfall">Rainfall</label>
-            <input
-              type="number"
-              step="0.01"
-              id="Rainfall"
-              name="Rainfall"
-              placeholder="Enter Rainfall in mm"
-              class="form-control"
-              required
-            />
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary btn-lg">
-              Get Recommendation
-            </button>
-          </div>
-        </div>
-      </form>
-
-      {% if result %}
-      <div class="card bg-dark" style="width: 18rem">
-        <img
-          src="{{url_for('static', filename='crop.png')}}"
-          style="width: 70px; height: 70px"
-          class="card-img-top"
-          alt="..."
-        />
-        <div class="card-body">
-          <h5 class="card-title">Recommend Crop for Cultivation is:</h5>
-          <p class="card-text">{{ result }}</p>
-        </div>
-      </div>
-      {% endif %}
     </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    {% endblock %}
+
+</body>
+
 </html>
