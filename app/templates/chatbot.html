@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agro ChatBot</title>
+    <title>KrushiVikas</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/patta.png') }}"/>
     <link rel="stylesheet" href="../static/style.css" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,9 +17,41 @@
       type="image/x-icon"
       href="{{ url_for('static', filename='images/favicon.ico') }}"
     />
+    <style>
+      .detect-disease-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: bold;
+        background: rgb(145, 197, 138);
+        backdrop-filter: blur(20px);
+        padding: 20px;
+        color: #0d4608;
+        transition: 0.3s ease;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.07),
+          0px 2px 4px 0px rgba(0, 0, 0, 0.07),
+          0px 4px 8px 0px rgba(0, 0, 0, 0.07),
+          0px 8px 16px 0px rgba(0, 0, 0, 0.07),
+          0px 16px 32px 0px rgba(0, 0, 0, 0.07),
+          0px 32px 64px 0px rgba(0, 0, 0, 0.07);
+      }
+
+      .detect-disease-button:hover {
+        background-color: rgba(110, 213, 99, 0.663);
+      }
+    </style>
   </head>
 
   <body>
+    <button class="detect-disease-button" onclick="window.location.href='/'">
+      Home
+    </button>
+
     <div class="chat-app-container">
       <div class="header">
         <img
@@ -27,7 +60,7 @@
           src="../static/images/llamabot.png"
           alt=""
         />
-        <h1 class="heading">Agro Chatbot</h1>
+        <h1 class="heading" style="color: black;">Agro Chatbot</h1>
       </div>
       <form id="chat-form" method="POST" action="/chatbot">
         <div class="form-container">
@@ -71,7 +104,7 @@
           <p class="input_query_text">{{ query_input }}</p>
         </div>
         {% endif %} {% if output %}
-        <div class="output-container">
+        <div class="output-container" style="color: black;">
           <p>{{ output|safe }}</p>
           <!-- Use the safe filter to render HTML from output -->
         </div>

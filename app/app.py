@@ -309,6 +309,9 @@ def govSchemes():
     return render_template("govSchemes.html", states=states, districts=districts, query_types=query_types, kcc_answer=kcc_answer)
 
 
+@app.route('/marathi')
+def marathi_page():
+    return render_template('marathi.html')
 
 
 

@@ -6,13 +6,7 @@ body {
   width: 100vw;
 }
 body {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 22, 1) 35%,
-    rgba(0, 17, 38, 1) 100%
-  );
+  background: url("../static/images/bgg.gif");
   background-size: cover;
   font-family: "Roboto", sans-serif;
   display: flex;
