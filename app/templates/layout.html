@@ -3,7 +3,7 @@
 
 <head>
 	<title>KrushiVikas</title>
-	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/patta.png') }}"/>
 	<link rel="shortcut icon" href="static/images/favicon.ico"/>
 
 	<!-- for-mobile-apps -->
@@ -212,13 +212,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a class="nav-link" href="{{ url_for('weather_view') }}">Weather</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('govSchemes') }}">GovSchemes</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('home') }}">MarketPrice</a>
+						<a class="nav-link" href="{{ url_for('market') }}">MarketPrice</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('location_view') }}">GeoLocation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('chatbot') }}">Chatbot</a>
 					</li>
 				</ul>
 			</div>
@@ -229,6 +229,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 	{% block body %} {% endblock %}
+
+	
 
 	<!-- footer -->
 	<footer class="text-center py-5">
@@ -241,9 +243,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</h2>
 			<!-- //logo -->
 			<!-- address -->
-			<div class="cpr"> <h2>&copy;&nbsp;Copyright Team Night Riders</h2></div>
+			<div class="cpr"> <h2>&copy;&nbsp;Copyright Team AgroTech</h2></div>
 		
 <script src="https://forms.app/static/embed.js" type="text/javascript" async defer onload="new formsapp('65ad927102fc07a4aa270bc1', 'sidetab', {'button':{'text':'Feedback form','color':'#28A03E'},'align':{'horizontal':'right','vertical':'middle'},'width':'400px','height':'1500px'});"></script>
+
+<button onclick="toggleForm()" 
+    style="position: fixed; right: 0; top: 20%; transform: translateY(-50%);
+           writing-mode: vertical-rl; padding: 10px; background-color: #28A03E;
+           color: white; border: none; cursor: pointer; z-index: 1000;
+           border-radius: 5px; font-size: 16px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+           direction: rtl; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+           display: inline-flex; align-items: center; justify-content: center;
+           width: auto; min-height: 120px;">
+    <span style="display: flex; align-items: center; justify-content: center;">📋</span>
+    GovSchemes
+</button>
+
+
+<!-- Sliding Panel with iframe -->
+<div id="schemePanel" style="position: fixed; top: 0; right: -50%; width: 50%; height: 100%; background-color: white; box-shadow: -2px 0 5px rgba(0,0,0,0.2); transition: right 0.3s; z-index: 2000;">
+    <iframe src="/govSchemes" style="width: 90%; height: 100%; border: none;"></iframe>
+    <button onclick="toggleForm()" style="position: absolute; top: 10px; left: 10px; background-color: red; color: white; border: none; padding: 10px;">Close</button>
+</div>
+
+<script>
+    function toggleForm() {
+        var panel = document.getElementById("schemePanel");
+        if (panel.style.right === "-50%") {
+            panel.style.right = "0"; // Opens the panel
+        } else {
+            panel.style.right = "-50%"; // Closes the panel
+        }
+    }
+</script>
+
+
 	</footer>
 	<!-- //footer -->
 

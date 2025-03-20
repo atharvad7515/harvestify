@@ -9,9 +9,36 @@
         body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f0f8ff;
+    background: url("../static/images/bgg.gif");
     overflow: hidden;
 }
+
+.detect-disease-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: bold;
+        background: rgb(145, 197, 138);
+        backdrop-filter: blur(20px);
+        padding: 20px;
+        color: #0d4608;
+        transition: 0.3s ease;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.07),
+          0px 2px 4px 0px rgba(0, 0, 0, 0.07),
+          0px 4px 8px 0px rgba(0, 0, 0, 0.07),
+          0px 8px 16px 0px rgba(0, 0, 0, 0.07),
+          0px 16px 32px 0px rgba(0, 0, 0, 0.07),
+          0px 32px 64px 0px rgba(0, 0, 0, 0.07);
+      }
+
+      .detect-disease-button:hover {
+        background-color: rgba(110, 213, 99, 0.663);
+      }
 
 #map {
     height: 400px; /* Ensure that the height is set correctly */
@@ -145,6 +172,10 @@ li {
     </style>
 </head>
 <body>
+    <button class="detect-disease-button" onclick="window.location.href='/'">
+        Home
+      </button>
+  
     <h3>Select Waypoints on the Map</h3>
     <div id="map"></div>
     <div id="controls">

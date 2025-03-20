@@ -3,125 +3,260 @@
 {% block body %}
 <!-- banner -->
 <section class="banner_w3lspvt" id="home">
-	<div class="csslider infinity" id="slider1">
-	
-				<div id="#box" class="wrapper">
-						<div class="box11">
-							<div class="conn">
-							<div class="b1">
-									<div class="texty">
-										<h6>Oxygen Plant</h6>
-										<h1>KEEP YOUR</h1>
-									<h1>PLANTS HEALTHY</h1>
-									<p>Plants Reduce Stress Levels And Boost Your Mood Making Them Perfect For Your Home And Your Work Space, Too. A Beautiful Plant Is Like Having A Friend Around The House.
-									</p>
-									</div>
-									<a href="#ser">
-										<button class="see">See More</button>
-									</a>
-								</div>
-								<div class="b2">
-									<img src="{{ url_for('static', filename='images/pot.png') }}" />
-								</div>
-							</div>
-						</div>
-							
-						</div>
-					
-				</div>
-	</div>
-	
+    <div class="csslider infinity" id="slider1">
+        <div id="#box" class="wrapper">
+            <div class="box11">
+                <div class="conn">
+                    <div class="b1">
+                        <div class="texty">
+                            <h6>Oxygen Plant</h6>
+                            <h1>KEEP YOUR</h1>
+                            <h1>PLANTS HEALTHY</h1>
+                            <p>Plants Reduce Stress Levels And Boost Your Mood Making Them Perfect For Your Home And Your Work Space, Too. A Beautiful Plant Is Like Having A Friend Around The House.</p>
+                        </div>
+                        <a href="#ser">
+                            <button class="see">See More</button>
+                        </a>
+                        <button class="chatbot-btn" onclick="openChatbot()" style="display: block; margin: 20px auto 0; background: linear-gradient(90deg, black, #6610f2); color: #f0f0f0; font-weight: bold; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 25px; position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 400px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); transition: background 0.3s, transform 0.2s;">
+                            Chatbot
+                        </button>
+                    </div>
+                    <div class="b2">
+                        <img src="{{ url_for('static', filename='images/pot.png') }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- //banner -->
 
 <!-- core values -->
 <section>
-	<div class="box22">
-
-		<h1> About Us</h1>
-		<div class="container ">
-			
-			<div class="content">
-				<div class="col-lg-6 core-left">
-					<img src="{{ url_for('static', filename='images/ab.gif') }}" class="img-fluid" alt="" />
-				</div>
-				<div class="ab">
-					<h2>Welcome to Hariyali, where innovation meets agriculture</h2>
-					<p>Our team is dedicated to revolutionizing crop health management through cutting-edge services. We employ advanced machine learning and deep learning technologies to assist you in navigating the entire farming process. Make well-informed decisions by analyzing local demographics, understanding crop-affecting factors, and maintaining crop health for better yields.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="box22">
+        <h1> About Us</h1>
+        <div class="container">
+            <div class="content">
+                <div class="col-lg-6 core-left">
+                    <img src="{{ url_for('static', filename='images/ab.gif') }}" class="img-fluid" alt="" />
+                </div>
+                <div class="ab">
+                    <h2>Welcome to KrushiVikas, where innovation meets agriculture</h2>
+                    <p>Our team is dedicated to revolutionizing crop health management through cutting-edge services. We employ advanced machine learning and deep learning technologies to assist you in navigating the entire farming process. Make well-informed decisions by analyzing local demographics, understanding crop-affecting factors, and maintaining crop health for better yields.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- //core values -->
 
 <!-- Products & Services -->
 <section class="blog py-5">
-	<div class="container py-md-5" id="ser">
-		<h1> Our Services</h1>
-		<div class="services">
-			<div class="mw">
-				<div class="simg">
-					<img src="{{ url_for('static', filename='images/crop.gif') }}" class="img-fluid" alt="" />
-				</div>
-				
-					<div class="blog-info">
-
-						<h4>Crop</h4>
-
-						<p> Suggests the most suitable crops to be grown based on the prevailing environmental and climatic conditions.</p>
-							<a href="{{ url_for('cropDetection') }}">
-								<button class="seee">Click Here</button>
-							</a>
-					</div>
-			</div>
-			<div class="mw">
-				 <div class="simg">
-					<img src="{{ url_for('static', filename='images/fert.gif') }}" class="img-fluid" alt="" />
-				 </div>
-		
-					<div class="blog-info">
-						<h4>Fertilizer</h4>
-						<p class="sp">Advises on the ideal fertilizer for a specific soil and recommends a compatible crop for better productivity.</p>
-							<a href="{{ url_for('fertilizer_recommendation') }}">
-								<button class="seee">Click Here</button>
-							</a>
-					</div>
-			</div>
-			<div class="mw">
-
-				<div class="simg">
-					<img src="{{ url_for('static', filename='images/dis.gif') }}" class="img-fluid" alt="">
-				</div>
-
-				<!-- <img src="images/s4.jpg" class="img-fliud" alt="" /> -->
-			
-					<div class="blog-info">
-						<h4>Crop Disease</h4>
-						<p>Predicts crop name and diseases, identify causes and provides effective solutions for curing them.</p>
-						<div class="ch"><a href="{{ url_for('disease_prediction') }}">
-							<button class="seee">Click Here</button>
-						</a></div>
-					</div>
-			</div>
-		</div>
-	</div>
+    <div class="container py-md-5" id="ser">
+        <h1> Our Services</h1>
+        <div class="services">
+            <div class="mw">
+                <div class="simg">
+                    <img src="{{ url_for('static', filename='images/crop.gif') }}" class="img-fluid" alt="" />
+                </div>
+                <div class="blog-info">
+                    <h4>Crop</h4>
+                    <p> Suggests the most suitable crops to be grown based on the prevailing environmental and climatic conditions.</p>
+                    <a href="{{ url_for('cropDetection') }}">
+                        <button class="seee">Click Here</button>
+                    </a>
+                </div>
+            </div>
+            <div class="mw">
+                <div class="simg">
+                    <img src="{{ url_for('static', filename='images/fert.gif') }}" class="img-fluid" alt="" />
+                </div>
+                <div class="blog-info">
+                    <h4>Fertilizer</h4>
+                    <p class="sp">Advises on the ideal fertilizer for a specific soil and recommends a compatible crop for better productivity.</p>
+                    <a href="{{ url_for('fertilizer_recommendation') }}">
+                        <button class="seee">Click Here</button>
+                    </a>
+                </div>
+            </div>
+            <div class="mw">
+                <div class="simg">
+                    <img src="{{ url_for('static', filename='images/dis.gif') }}" class="img-fluid" alt="">
+                </div>
+                <div class="blog-info">
+                    <h4>Crop Disease</h4>
+                    <p>Predicts crop name and diseases, identifies causes, and provides effective solutions for curing them.</p>
+                    <div class="ch">
+                        <a href="{{ url_for('disease_prediction') }}">
+                            <button class="seee">Click Here</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- //Products & Services -->
 
-
-<!-- Creating custom grid and hover effect
-<section>
-<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-    <div class="hovereffect">
-        <img class="img-responsive" src="images/s2.jpg" alt="">
-        <div class="overlay">
-           <h2>Hover effect 1</h2>
-           <a class="info" href="#">link here</a>
+<!-- Chatbot Modal -->
+<div id="chatbot-modal" class="chatbot-modal">
+    <div class="chatbot-modal-content">
+        <span class="close-btn" onclick="closeChatbot()">&times;</span>
+        <div class="chat-app-container">
+            <div class="header">
+                <img height="120px" width="120px" src="{{ url_for('static', filename='images/llamabot.png') }}" alt="" />
+                <h1 class="heading">Agro Chatbot</h1>
+            </div>
+            <form id="chat-form" method="POST" action="/chatbot">
+                <div class="form-container">
+                    <input type="text" class="query-input" id="query-input" name="query-input" required placeholder="Type your message" />
+                    <button type="submit" class="submit-button">
+                        <img src="{{ url_for('static', filename='images/send-button.png') }}" alt="send message" />
+                    </button>
+                </div>
+            </form>
+            <div class="response-container">
+                {% if query_input %}
+                <div class="input-text-container">
+                    <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" fill="#fff" />
+                    </svg>
+                    <p class="input_query_text">{{ query_input }}</p>
+                </div>
+                {% endif %}
+                {% if output %}
+                <div class="output-container">
+                    <p>{{ output|safe }}</p>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div> -->
+</div>
 
-</html>
+<script>
+    function openChatbot() {
+        document.getElementById('chatbot-modal').style.display = 'flex';
+    }
 
-{% endblock %}x`
+    function closeChatbot() {
+        document.getElementById('chatbot-modal').style.display = 'none';
+    }
+
+    // Close modal if clicked outside the content
+    window.onclick = function(event) {
+        const modal = document.getElementById('chatbot-modal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+</script>
+
+<style>
+    /* Chatbot Modal Styles */
+    /* Chatbot Modal Styles */
+.chatbot-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.chatbot-modal-content {
+    background-color: #2c3e50;
+    border-radius: 15px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    padding: 20px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #ff4d4d;
+}
+
+.chat-app-container {
+    text-align: center;
+}
+
+.header img {
+    margin-bottom: 10px;
+}
+
+.heading {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Updated Form Styles */
+.form-container {
+    display: flex;
+    align-items: center; /* Ensures vertical alignment */
+    gap: 5px; /* Reduces space between input and button */
+    margin-bottom: 20px;
+}
+
+.query-input {
+    flex: 1;
+    padding: 8px; /* Slightly reduce padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #fff;
+    height: 30px; /* Increased height for better usability */
+}
+
+.submit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 30px; /* Smaller width */
+    height: 30px; /* Smaller height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submit-button img {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+}
+
+.response-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #34495e;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.input-text-container, .output-container {
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.input_query_text, .output-container p {
+    color: #fff;
+}
+
+</style>
+{% endblock %}

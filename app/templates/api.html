@@ -9,7 +9,34 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 20px;
-        background-color: #f5f5f5;
+        background: url("../static/images/bgg.gif");
+      }
+
+      .detect-disease-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: bold;
+        background: rgb(145, 197, 138);
+        backdrop-filter: blur(20px);
+        padding: 20px;
+        color: #0d4608;
+        transition: 0.3s ease;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.07),
+          0px 2px 4px 0px rgba(0, 0, 0, 0.07),
+          0px 4px 8px 0px rgba(0, 0, 0, 0.07),
+          0px 8px 16px 0px rgba(0, 0, 0, 0.07),
+          0px 16px 32px 0px rgba(0, 0, 0, 0.07),
+          0px 32px 64px 0px rgba(0, 0, 0, 0.07);
+      }
+
+      .detect-disease-button:hover {
+        background-color: rgba(110, 213, 99, 0.663);
       }
 
       header {
@@ -105,10 +132,17 @@
         .search-form {
           flex-direction: column;
         }
+
+       
       }
     </style>
   </head>
   <body>
+    
+    <button class="detect-disease-button" onclick="window.location.href='/'">
+      Home
+    </button>
+
     <header>
       <h1>India Commodity Prices</h1>
       <p>Agricultural commodity prices from government API</p>
@@ -174,5 +208,6 @@
     <footer>
       <p>Data source: data.gov.in | Updated regularly</p>
     </footer>
+
   </body>
 </html>

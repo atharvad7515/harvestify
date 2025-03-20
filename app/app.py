@@ -1,8 +1,8 @@
 # Importing essential libraries and modules
-# from langchain_community.llms import Ollama
-# from langchain_core.prompts import ChatPromptTemplate
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_ollama import OllamaLLM
+from langchain_community.llms import Ollama
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_ollama import OllamaLLM
 
 
 
@@ -148,40 +148,40 @@ def predict_image(img, model=disease_model):
 
 app = Flask(__name__)
 
-# def get_price_data(state=None, district=None, commodity=None):
-#     url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070"
-#     params = {
-#         "api-key": "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b",
-#         "format": "json",
-#         "offset": 0,
-#         "limit": 10
-#     }
+def get_price_data(state=None, district=None, commodity=None):
+    url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070"
+    params = {
+        "api-key": "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b",
+        "format": "json",
+        "offset": 0,
+        "limit": 10
+    }
     
-#     # Add filters
-#     if state:
-#         params["filters[state]"] = state
-#     if district:
-#         params["filters[district]"] = district
-#     if commodity:
-#         params["filters[commodity]"] = commodity
+    # Add filters
+    if state:
+        params["filters[state]"] = state
+    if district:
+        params["filters[district]"] = district
+    if commodity:
+        params["filters[commodity]"] = commodity
     
-#     try:
-#         response = requests.get(url, params=params)
-#         response.raise_for_status()
-#         data = response.json()
-#     except (requests.exceptions.RequestException, ValueError) as e:
-#         print(f"Error fetching data: {e}")
-#         return []
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+    except (requests.exceptions.RequestException, ValueError) as e:
+        print(f"Error fetching data: {e}")
+        return []
 
-#     record = {
-#     'state': item.get('state', 'N/A'),
-#     'district': item.get('district', 'N/A'),
-#     'commodity': item.get('commodity', 'N/A'),
-#     'min_price': item.get('min_price', 'N/A'),
-#     'max_price': item.get('max_price', 'N/A'),
-#     'market': item.get('market', 'N/A'),
-#     'arrival_date': item.get('arrival_date', 'N/A')
-#      }
+    record = {
+    'state': item.get('state', 'N/A'),
+    'district': item.get('district', 'N/A'),
+    'commodity': item.get('commodity', 'N/A'),
+    'min_price': item.get('min_price', 'N/A'),
+    'max_price': item.get('max_price', 'N/A'),
+    'market': item.get('market', 'N/A'),
+    'arrival_date': item.get('arrival_date', 'N/A')
+     }
     
 import requests
 from flask import Flask, render_template, request
@@ -234,7 +234,7 @@ def get_price_data(state=None, district=None, commodity=None):
         return []  # ✅ Always return an empty list on failure
 
 @app.route('/api')
-def index():
+def market():
     state = request.args.get('state', '')
     district = request.args.get('district', '')
     commodity = request.args.get('commodity', '')
@@ -464,45 +464,45 @@ def format_output(text):
     return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
 
 # Define chatbot initialization
-# def initialise_llama3():
-#     try:    
-#         # Create chatbot prompt
-#         create_prompt = ChatPromptTemplate.from_messages(
-#             [
-#                 ("system", "You are my personal assistant"),
-#                 ("user", "Question: {question}")
-#             ]
-#         )
+def initialise_llama3():
+    try:    
+        # Create chatbot prompt
+        create_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", "You are my personal assistant"),
+                ("user", "Question: {question}")
+            ]
+        )
 
-#         # Initialize OpenAI LLM and output parser
-#         lamma_model = Ollama(model="llama3.2")
-#         format_output = StrOutputParser()
+        # Initialize OpenAI LLM and output parser
+        lamma_model = Ollama(model="llama3.2")
+        format_output = StrOutputParser()
 
-#         # Create chain
-#         chatbot_pipeline = create_prompt | lamma_model | format_output
-#         return chatbot_pipeline
-#     except Exception as e:
-#         logging.error(f"Failed to initialize chatbot: {e}")
-#         raise
+        # Create chain
+        chatbot_pipeline = create_prompt | lamma_model | format_output
+        return chatbot_pipeline
+    except Exception as e:
+        logging.error(f"Failed to initialize chatbot: {e}")
+        raise
 
-# # Initialize chatbot
-# chatbot_pipeline = initialise_llama3()
+# Initialize chatbot
+chatbot_pipeline = initialise_llama3()
 
-# # Define route for home page
-# @app.route('/chatbot', methods=['GET', 'POST'])
-# def main():
-#     query_input = None
-#     output = None
-#     if request.method == 'POST':
-#         query_input = request.form.get('query-input')
-#         if query_input:
-#             try:
-#                 response = chatbot_pipeline.invoke({'question': query_input})
-#                 output = format_output(response)
-#             except Exception as e:
-#                 logging.error(f"Error during chatbot invocation: {e}")
-#                 output = "Sorry, an error occurred while processing your request."
-#     return render_template('chatbot.html', query_input=query_input, output=output)
+# Define route for home page
+@app.route('/chatbot', methods=['GET', 'POST'])
+def chatbot():
+    query_input = None
+    output = None
+    if request.method == 'POST':
+        query_input = request.form.get('query-input')
+        if query_input:
+            try:
+                response = chatbot_pipeline.invoke({'question': query_input})
+                output = format_output(response)
+            except Exception as e:
+                logging.error(f"Error during chatbot invocation: {e}")
+                output = "Sorry, an error occurred while processing your request."
+    return render_template('chatbot.html', query_input=query_input, output=output)
 
 # @app.route('/chatbot', methods=['GET', 'POST'])
 # def main():
