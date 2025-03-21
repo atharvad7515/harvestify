@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KrushiVikas</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/patta.png') }}"/>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='images/patta.png') }}"
+    />
     <link rel="stylesheet" href="../static/style.css" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -60,7 +63,7 @@
           src="../static/images/llamabot.png"
           alt=""
         />
-        <h1 class="heading" style="color: black;">Agro Chatbot</h1>
+        <h1 class="heading" style="color: black">Agro Chatbot</h1>
       </div>
       <form id="chat-form" method="POST" action="/chatbot">
         <div class="form-container">
@@ -74,7 +77,7 @@
             style="
               background-color: transparent;
               background: none;
-              color: white;
+              color: black;
             "
           />
           <button type="submit" class="submit-button">
@@ -104,7 +107,7 @@
           <p class="input_query_text">{{ query_input }}</p>
         </div>
         {% endif %} {% if output %}
-        <div class="output-container" style="color: black;">
+        <div class="output-container" style="color: black">
           <p>{{ output|safe }}</p>
           <!-- Use the safe filter to render HTML from output -->
         </div>
